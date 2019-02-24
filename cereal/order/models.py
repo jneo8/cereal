@@ -28,6 +28,13 @@ class Order(models.Model):
     shipping = models.IntegerField()
     created_at = models.DateTimeField()
 
+    @classmethod
+    def zero_shipping_pct(cls):
+        """Return shipping equal to 0 %, return count."""
+        pct = cls.objects.filter(shipping=0).count() / cls.objects.all().count()
+        return [pct, 1 - pct]
+
+
 
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
