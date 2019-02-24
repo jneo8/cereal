@@ -4,7 +4,7 @@ from django.core.management.base import BaseCommand, CommandError
 
 import pandas as pd
 
-from ...models import Order
+from ...models import OrderItem, Order
 
 logger = logging.getLogger(__name__)
 
@@ -20,12 +20,12 @@ class Command(BaseCommand):
             try:
                 df = pd.read_csv(file)
                 for idx, row in df.iterrows():
-                    order = Order(
-                        id=row["order_id"],
-                        customer=row["customer_id"],
-                        shipping=row["shipping"],
-                        created_at=row["created_at"],
+                    order = Order.objects.get(id=row["order_id"])
+                    order_item = OrderItem(
+                        order=order,
+                        product_name=row["product_name"],
+                        qty=row["qty"],
                     )
-                    order.save()
+                    order_item.save()
             except Exception as e:
                 logger.error(traceback.format_exc())
