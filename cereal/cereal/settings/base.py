@@ -130,12 +130,12 @@ STATIC_URL = '/static/'
 # Logger
 LOGGING = logging_config
 for app in MY_APPS:
-    if not app.startwith("django"):
+    if not app.startswith("django"):
         LOGGING["loggers"].update(
             {
                 app: {
-                    "handles": ["console"],
-                    "level": LOGLEVEL
+                    "handlers": ["console"],
+                    "level": LOGLEVEL,
                     "propagate": False,
                 }
             }

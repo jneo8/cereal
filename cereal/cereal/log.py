@@ -54,15 +54,11 @@ logging_config = {
             'class': 'logging.StreamHandler',
             'formatter': CONSOLE_FORMATTER,
         },
-        'sentry': {
-            'level': 'WARNING',
-            'class': 'raven.contrib.django.raven_compat.handlers.SentryHandler',  # noqa
-        },
         'django.server': DEFAULT_LOGGING['handlers']['django.server'],
     },
     'loggers': {
         '': {
-            'handlers': ['sentry', 'console'],
+            'handlers': ['console'],
             'level': "WARNING",
             'propagate': False,
         },
