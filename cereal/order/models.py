@@ -16,7 +16,6 @@ class Order(models.Model):
                 created_at = created_at.replace("上午", "AM")
             if "下午" in created_at:
                 created_at = created_at.replace("下午", "PM")
-            logger.debug(created_at)
             created_at = datetime.strptime(created_at, "%Y/%m/%d %p %H:%M:%S")
 
         self.created_at = created_at
