@@ -1,10 +1,41 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Cereal</title>
-</head>
-<body>
-    {{ zero_shipping_pct }}
-</body>
-</html>
+{% extends "base/index.html" %}
+
+{% block extra_body %}
+<div id="container"></div>
+{% endblock extra_body %}
+{% block extra_js %}
+<script>
+    Highcharts.chart('container', {
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false,
+            type: 'pie'
+        },
+        title: {
+            text: 'Shipping percentage'
+        },
+        tooltip: {
+            pointFormat: '{series.name}: <b>{point.percentage:.3f}%</b>'
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: true,
+                    format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                    style: {
+                        color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                    }
+                }
+            }
+        },
+        series: [{
+            name: 'shipping',
+            colorByPoint: true,
+            data: {{ zero_shipping_pct | safe}}
+        }]
+    });
+</script>
+{% endblock extra_js %}
