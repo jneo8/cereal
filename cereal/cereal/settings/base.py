@@ -11,9 +11,11 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 import os
+from ..log import logging_config, LOGLEVEL
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = os.path.dirname(
+        os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 
 # Quick-start development settings - unsuitable for production
@@ -30,6 +32,12 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
+MY_APPS = [
+    'order',
+]
+
+THREE_PARTY_APPS = []
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -37,8 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'order',
-]
+] + THREE_PARTY_APPS + MY_APPS
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -119,3 +126,17 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# Logger
+LOGGING = logging_config
+for app in MY_APPS:
+    if not app.startwith("django"):
+        LOGGING["loggers"].update(
+            {
+                app: {
+                    "handles": ["console"],
+                    "level": LOGLEVEL
+                    "propagate": False,
+                }
+            }
+        )
