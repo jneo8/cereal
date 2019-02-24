@@ -5,6 +5,8 @@ name = "pypi"
 
 [packages]
 django = "*"
+colorlog = "*"
+pandas = "*"
 
 [dev-packages]
 
