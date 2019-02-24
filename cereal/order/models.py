@@ -34,6 +34,17 @@ class Order(models.Model):
         pct = cls.objects.filter(shipping=0).count() / cls.objects.all().count()
         return [pct, 1 - pct]
 
+    @classmethod
+    def cohort_analysis(cls):
+        items = (
+                cls
+                .objects
+                .extra(select={"day": "date( created_at )"})
+                .values("day")
+                .annotate(count=models.Count("customer"))
+                .order_by("day", "count")
+        )
+        return items
 
 
 class OrderItem(models.Model):

@@ -33,7 +33,13 @@ def gen_hot_product_data():
     }
     return data
 
+def gen_cohort_analysis_data():
+    data = Order.cohort_analysis()
+    return data
+
+
 def index(request, *args, **kwargs):
+    cohort_analysis_data = gen_cohort_analysis_data()
 
     return render(
         request,
