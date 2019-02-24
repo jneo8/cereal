@@ -216,3 +216,7 @@ tags
 [._]*.un~
 
 # End of https://www.gitignore.io/api/go,vim,git,macos,linux,python
+
+
+# Project
+cereal/cereal/db.sqlite3
