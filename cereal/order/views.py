@@ -1,5 +1,8 @@
+import logging
 from django.shortcuts import render
-from .models import Order
+from .models import Order, OrderItem
+
+logger = logging.getLogger(__name__)
 
 # Create your views here.
 
@@ -16,6 +19,20 @@ def gen_zero_shipping_pct_data():
         },
     ]
 
+def gen_hot_product_data():
+    hot_items = OrderItem.hot_items(3)
+    counts = []
+    products = []
+    for item in hot_items:
+        products.append(item["product_name"])
+        counts.append(item["product_count"])
+
+    data = {
+        "counts": counts,
+        "names": products,
+    }
+    return data
+
 def index(request, *args, **kwargs):
 
     return render(
@@ -23,5 +40,6 @@ def index(request, *args, **kwargs):
         "order/index.html",
         {
             "zero_shipping_pct": gen_zero_shipping_pct_data(),
+            "hot_product": gen_hot_product_data(),
         }
     )

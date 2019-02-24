@@ -40,3 +40,9 @@ class OrderItem(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
     product_name = models.CharField(max_length=300)
     qty = models.IntegerField()
+
+    @classmethod
+    def hot_items(cls, size):
+        """Return top size hot item."""
+        items = cls.objects.values("product_name").annotate(product_count=models.Count("product_name")).order_by("-product_count")[:size]
+        return items

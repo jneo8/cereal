@@ -1,11 +1,12 @@
 {% extends "base/index.html" %}
 
 {% block extra_body %}
-<div id="container"></div>
+<div id="shipping"></div>
+<div id="hot-product"></div>
 {% endblock extra_body %}
 {% block extra_js %}
 <script>
-    Highcharts.chart('container', {
+    Highcharts.chart('shipping', {
         chart: {
             plotBackgroundColor: null,
             plotBorderWidth: null,
@@ -38,4 +39,61 @@
         }]
     });
 </script>
+<script>
+	Highcharts.chart('hot-product', {
+	    chart: {
+	        type: 'bar'
+	    },
+	    title: {
+	        text: 'Hot Products'
+	    },
+	    subtitle: {
+	        text: ''
+	    },
+	    xAxis: {
+	        categories: {{ hot_product.names | safe}},
+	        title: {
+	            text: null
+	        }
+	    },
+	    yAxis: {
+	        min: 0,
+	        title: {
+	            text: 'Count',
+	            align: 'high'
+	        },
+	        labels: {
+	            overflow: 'justify'
+	        }
+	    },
+	    tooltip: {
+	        valueSuffix: ' millions'
+	    },
+	    plotOptions: {
+	        bar: {
+	            dataLabels: {
+	                enabled: true
+	            }
+	        }
+	    },
+	    legend: {
+	        layout: 'vertical',
+	        align: 'right',
+	        verticalAlign: 'top',
+	        x: -40,
+	        y: 80,
+	        floating: true,
+	        borderWidth: 1,
+	        backgroundColor: ((Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'),
+	        shadow: true
+	    },
+	    credits: {
+	        enabled: false
+	    },
+	    series: [{
+	        name: 'Count',
+	        data: {{ hot_product.counts | safe}}
+	    }]
+	});
+	</script>
 {% endblock extra_js %}
