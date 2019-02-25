@@ -6,4 +6,4 @@ RUN pip install pipenv
 RUN pipenv install --system --dev --ignore-pipfile
 WORKDIR /app/cereal
 RUN python manage.py collectstatic --noinput
-ENTRYPOINT ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+ENTRYPOINT ["uwsgi", "--ini", "uwsgi.ini"]
