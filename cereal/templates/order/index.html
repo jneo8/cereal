@@ -3,6 +3,7 @@
 {% block extra_body %}
 <div id="shipping"></div>
 <div id="hot-product"></div>
+<div id="cohort"></div>
 {% endblock extra_body %}
 {% block extra_js %}
 <script>
@@ -40,60 +41,115 @@
     });
 </script>
 <script>
-	Highcharts.chart('hot-product', {
-	    chart: {
-	        type: 'bar'
-	    },
-	    title: {
-	        text: 'Hot Products'
-	    },
-	    subtitle: {
-	        text: ''
-	    },
-	    xAxis: {
-	        categories: {{ hot_product.names | safe}},
-	        title: {
-	            text: null
-	        }
-	    },
-	    yAxis: {
-	        min: 0,
-	        title: {
-	            text: 'Count',
-	            align: 'high'
-	        },
-	        labels: {
-	            overflow: 'justify'
-	        }
-	    },
-	    tooltip: {
-	        valueSuffix: ' millions'
-	    },
-	    plotOptions: {
-	        bar: {
-	            dataLabels: {
-	                enabled: true
-	            }
-	        }
-	    },
-	    legend: {
-	        layout: 'vertical',
-	        align: 'right',
-	        verticalAlign: 'top',
-	        x: -40,
-	        y: 80,
-	        floating: true,
-	        borderWidth: 1,
-	        backgroundColor: ((Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'),
-	        shadow: true
-	    },
-	    credits: {
-	        enabled: false
-	    },
-	    series: [{
-	        name: 'Count',
-	        data: {{ hot_product.counts | safe}}
-	    }]
-	});
-	</script>
+    Highcharts.chart('hot-product', {
+        chart: {
+            type: 'bar'
+        },
+        title: {
+            text: 'Hot Products'
+        },
+        subtitle: {
+            text: ''
+        },
+        xAxis: {
+            categories: {{ hot_product.names | safe}},
+            title: {
+                text: null
+            }
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: 'Count',
+                align: 'high'
+            },
+            labels: {
+                overflow: 'justify'
+            }
+        },
+        tooltip: {
+            valueSuffix: ' millions'
+        },
+        plotOptions: {
+            bar: {
+                dataLabels: {
+                    enabled: true
+                }
+            }
+        },
+        legend: {
+            layout: 'vertical',
+            align: 'right',
+            verticalAlign: 'top',
+            x: -40,
+            y: 80,
+            floating: true,
+            borderWidth: 1,
+            backgroundColor: ((Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'),
+            shadow: true
+        },
+        credits: {
+            enabled: false
+        },
+        series: [{
+            name: 'Count',
+            data: {{ hot_product.counts | safe}}
+        }]
+    });
+</script>
+<script>
+    Highcharts.chart('cohort', {
+	chart: {
+	    type: 'heatmap',
+	    marginTop: 40,
+	    marginBottom: 80,
+	    plotBorderWidth: 1,
+	    height: 1000
+	},
+
+	title: {
+	    text: 'Cohort'
+	},
+
+	xAxis: {
+	    categories: []
+	},
+
+	yAxis: {
+	    categories: {{ cohort_analysis_data.days | safe }},
+	    title: null
+	},
+
+	colorAxis: {
+	    min: 0,
+	    minColor: '#FFFFFF',
+	    maxColor: Highcharts.getOptions().colors[0]
+	},
+
+	legend: {
+	    align: 'right',
+	    layout: 'vertical',
+	    margin: 0,
+	    verticalAlign: 'top',
+	    y: 25,
+	    symbolHeight: 280
+	},
+
+	tooltip: {
+	    formatter: function () {
+		return '<b>' + this.point.value + '%';
+	    }
+	},
+
+	series: [{
+	    name: '%',
+	    borderWidth: 1,
+            data: {{ cohort_analysis_data.chart_data | safe }},
+	    dataLabels: {
+		enabled: true,
+		color: '#000000'
+	    }
+	}]
+    });
+</script>
 {% endblock extra_js %}
