@@ -51,7 +51,6 @@ class Order(models.Model):
         )
         data = {}
         for item in items:
-            logger.debug(item)
             if not data.get(item["day"]):
                 data[item["day"]] = []
             data[item["day"]].append(item["customer"])
