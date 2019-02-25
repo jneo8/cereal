@@ -39,13 +39,12 @@ def gen_cohort_analysis_data():
 
 
 def index(request, *args, **kwargs):
-    cohort_analysis_data = gen_cohort_analysis_data()
-
     return render(
         request,
         "order/index.html",
         {
             "zero_shipping_pct": gen_zero_shipping_pct_data(),
             "hot_product": gen_hot_product_data(),
+            "cohort_analysis_data": gen_cohort_analysis_data(),
         }
     )
